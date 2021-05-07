@@ -132,13 +132,13 @@ export const networkConfigs = {
   bsc: {
     addresses: {
       ensRegistry:
-        localEnsRegistryAddress || '0xaefcfeb2387d9b78016376b7a6a874902120eeab',
+        localEnsRegistryAddress || '0x5cb93188c27f6adc771b7c6a13b9a79df2399ae2',
     },
     nodes: {
-      defaultEth: 'ws://bsc.easyswap.finance/ws',
+      defaultEth: 'wss://bsc.easyswap.finance',
     },
     settings: {
-      chainId: 97,
+      chainId: 56,
       name: 'Binance Smart Chain',
       shortName: 'bsc',
       type: 'private',

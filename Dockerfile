@@ -13,9 +13,9 @@ COPY src ./src
 COPY arapp.json ./
 
 ARG ARAGON_APP_LOCATOR=ipfs
-ARG ARAGON_ENS_REGISTRY_ADDRESS=0x7a052317065eb047d0e5fc587aa3eb6aaa6c317f
-ARG ARAGON_IPFS_GATEWAY=http://ipfs.easyswap.finance/ipfs
-ARG ARAGON_DEFAULT_ETH_NODE=ws://bsc.easyswap.finance/ws
+ARG ARAGON_ENS_REGISTRY_ADDRESS=0x5cb93188c27f6adc771b7c6a13b9a79df2399ae2
+ARG ARAGON_IPFS_GATEWAY=https://ipfs.easyswap.finance/ipfs
+ARG ARAGON_DEFAULT_ETH_NODE=wss://bsc.easyswap.finance
 ARG ARAGON_ETH_NETWORK_TYPE=bsc
 
 RUN yarn build

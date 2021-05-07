@@ -46,7 +46,7 @@ const INITIAL_DAO_STATE = {
 }
 
 const SELECTOR_NETWORKS = [
-   ['bsc', 'BSC testnet', 'http://dao.easyswap.finance/'],
+   ['bsc', 'Binance Smart Chain', 'https://dao.easyswap.finance/'],
 ]
 if (network.type === 'ropsten') {
   SELECTOR_NETWORKS.push([
