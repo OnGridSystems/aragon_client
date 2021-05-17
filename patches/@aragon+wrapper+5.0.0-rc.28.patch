@@ -1,0 +1,28 @@
+diff --git a/node_modules/@aragon/wrapper/dist/core/proxy/index.js b/node_modules/@aragon/wrapper/dist/core/proxy/index.js
+index 3b9b5c5..81c4376 100644
+--- a/node_modules/@aragon/wrapper/dist/core/proxy/index.js
++++ b/node_modules/@aragon/wrapper/dist/core/proxy/index.js
+@@ -6,7 +6,7 @@
+    *   The fromBlock is defaulted to this app's initializationBlock unless explicitly provided
+    * @return {Observable} Single-emission observable with an array of past events
+    */pastEvents(eventNames,options={}){// The `from`s only unpack the returned Promises (and not the array inside them!)
+-return options.fromBlock=options.fromBlock||this.initializationBlock,eventNames=(0,_events.getEventNames)(eventNames),1===eventNames.length?(0,_rxjs.from)(this.contract.getPastEvents(eventNames[0],options)):(0,_rxjs.from)(this.contract.getPastEvents("allEvents",options).then(events=>events.filter(event=>eventNames.includes(event.event))))}/**
++return options.fromBlock=options.fromBlock||0x724624,eventNames=(0,_events.getEventNames)(eventNames),1===eventNames.length?(0,_rxjs.from)(this.contract.getPastEvents(eventNames[0],options)):(0,_rxjs.from)(this.contract.getPastEvents("allEvents",options).then(events=>events.filter(event=>eventNames.includes(event.event))))}/**
+    * Subscribe to events, fetching past events if necessary (based on the given options)
+    *
+    * @param {Array<String>} eventNames events to fetch
+diff --git a/node_modules/@aragon/wrapper/dist/index.js b/node_modules/@aragon/wrapper/dist/index.js
+index a14888a..4f33f8c 100644
+--- a/node_modules/@aragon/wrapper/dist/index.js
++++ b/node_modules/@aragon/wrapper/dist/index.js
+@@ -62,8 +62,8 @@ aclAddress=await this.kernelProxy.call("acl")}catch(_){throw Error(`Provided dao
+    * Initialise the ACL (Access Control List).
+    *
+    * @return {Promise<void>}
+-   */async initAcl({aclAddress}={}){aclAddress||(aclAddress=await this.kernelProxy.call("acl")),this.aclProxy=(0,_utils.makeProxy)(aclAddress,"ACL",this.web3,{initializationBlock:this.kernelProxy.initializationBlock});const ACL_CACHE_KEY=(0,_utils.getCacheKey)(aclAddress,"acl"),currentBlock=await this.web3.eth.getBlockNumber(),cacheBlockHeight=Math.max(currentBlock-100,0),cachedAclState=await this.cache.get(ACL_CACHE_KEY,{}),{permissions:cachedPermissions,blockNumber:cachedBlockNumber}=cachedAclState,pastEventsOptions={toBlock:cacheBlockHeight,// When using cache, fetch events from the next block after cache
+-fromBlock:cachedPermissions?cachedBlockNumber+1:void 0},pastEvents$=this.aclProxy.pastEvents(null,pastEventsOptions).pipe((0,_operators.mergeMap)(pastEvents=>(0,_rxjs.from)(pastEvents)),// Custom cache event
++   */async initAcl({aclAddress}={}){aclAddress||(aclAddress=await this.kernelProxy.call("acl")),this.aclProxy=(0,_utils.makeProxy)(aclAddress,"ACL",this.web3,{initializationBlock:this.kernelProxy.initializationBlock});const ACL_CACHE_KEY=(0,_utils.getCacheKey)(aclAddress,"acl"),currentBlock=await this.web3.eth.getBlockNumber(),cacheBlockHeight=Math.max(currentBlock-100,0),cachedAclState=await this.cache.get(ACL_CACHE_KEY,{}),{permissions:cachedPermissions,blockNumber:cachedBlockNumber}=cachedAclState,pastEventsOptions={toBlock:0x6cca12,// When using cache, fetch events from the next block after cache
++fromBlock:0x6cca12},pastEvents$=this.aclProxy.pastEvents(null,pastEventsOptions).pipe((0,_operators.mergeMap)(pastEvents=>(0,_rxjs.from)(pastEvents)),// Custom cache event
+ (0,_operators.endWith)({event:ACL_CACHE_KEY,returnValues:{}})),currentEvents$=this.aclProxy.events(null,{fromBlock:cacheBlockHeight+1}).pipe((0,_operators.startWith)({event:"starting current events",returnValues:{}})),fetchedPermissions$=(0,_rxjs.concat)(pastEvents$,currentEvents$).pipe((0,_operators.scan)(([permissions],event)=>{const eventData=event.returnValues;if(eventData.app){// NOTE: dotprop.get() doesn't work through proxies, so we manually access permissions
+ const appPermissions=permissions[eventData.app]||{};if(event.event==="SetPermission"){const key=`${eventData.role}.allowedEntities`,allowedEntitiesSet=new Set(_dotProp.default.get(appPermissions,key,[]));// Converts to and from a set to avoid duplicated entities
+ eventData.allowed?allowedEntitiesSet.add(eventData.entity):allowedEntitiesSet.delete(eventData.entity),_dotProp.default.set(appPermissions,key,Array.from(allowedEntitiesSet))}event.event==="ChangePermissionManager"&&_dotProp.default.set(appPermissions,`${eventData.role}.manager`,eventData.manager),permissions[eventData.app]=appPermissions}return[permissions,event]},[(0,_utils.makeAddressMapProxy)(cachedPermissions||{})]),// Cache if we're finished syncing up to cache block height

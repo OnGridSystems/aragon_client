@@ -1,0 +1,8 @@
+
+version: '3.4'
+services:
+  aragon-ui:
+      image: aragon:latest
+      build: ./
+      ports:
+        - 80:80
