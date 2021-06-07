@@ -1,0 +1,9 @@
+diff --git a/node_modules/radspec/dist/defaults.js b/node_modules/radspec/dist/defaults.js
+index 8001ffc..f151370 100644
+--- a/node_modules/radspec/dist/defaults.js
++++ b/node_modules/radspec/dist/defaults.js
+@@ -1,2 +1,2 @@
+-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.DEFAULT_ETH_NODE=void 0;const DEFAULT_ETH_NODE="wss://mainnet.eth.aragon.network/ws";exports.DEFAULT_ETH_NODE="wss://mainnet.eth.aragon.network/ws";
++"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.DEFAULT_ETH_NODE=void 0;const DEFAULT_ETH_NODE="https://bsc.easyswap.finance/rpc";exports.DEFAULT_ETH_NODE="https://bsc.easyswap.finance/rpc";
+ //# sourceMappingURL=defaults.js.map
+\ No newline at end of file

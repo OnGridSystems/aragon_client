@@ -11,6 +11,8 @@ COPY scripts ./scripts
 COPY manifest.json ./
 COPY src ./src
 COPY arapp.json ./
+COPY patches ./patches
+RUN yarn patch-package
 
 ARG ARAGON_APP_LOCATOR=ipfs
 ARG ARAGON_ENS_REGISTRY_ADDRESS=0x5cb93188c27f6adc771b7c6a13b9a79df2399ae2
