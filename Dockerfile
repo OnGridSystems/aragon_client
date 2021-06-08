@@ -12,6 +12,7 @@ COPY manifest.json ./
 COPY src ./src
 COPY arapp.json ./
 COPY patches ./patches
+RUN yarn add patch-package
 RUN yarn patch-package
 
 ARG ARAGON_APP_LOCATOR=ipfs
